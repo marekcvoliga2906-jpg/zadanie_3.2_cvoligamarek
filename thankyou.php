@@ -1,6 +1,5 @@
 <?php
 $pageTitle = 'Ďakujeme';
-$extraCss  = ['css/banner.css'];
 include 'header.php';
 ?>
 

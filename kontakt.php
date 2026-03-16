@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Kontakt';
-$extraCss  = ['css/form.css', 'css/banner.css'];
+$extraCss  = ['css/form.css'];
 include 'header.php';
 ?>
 

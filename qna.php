@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Q&A';
-$extraCss  = ['css/accordion.css', 'css/banner.css'];
+$extraCss  = ['css/accordion.css'];
 $extraJs   = ['js/accordion.js'];
 include 'header.php';
 ?>

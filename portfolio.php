@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Portfólio';
-$extraCss  = ['css/portfolio.css', 'css/banner.css'];
+$extraCss  = ['css/portfolio.css'];
 include 'header.php';
 ?>
 
