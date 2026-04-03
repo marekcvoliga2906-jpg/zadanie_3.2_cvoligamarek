@@ -1,14 +1,26 @@
 
 .slides-container {
-  position: relative;  
+  position: relative;
   width: 100%;
   max-width: 100%;
   height: auto;
-  
 }
-.slide, .slide img{
-    width:100%;   
-    height: auto; 
+
+.slide {
+  position: relative;
+  width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+}
+
+.slide-link {
+  display: block;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
 }
 .prev, .next {
   cursor: pointer;
