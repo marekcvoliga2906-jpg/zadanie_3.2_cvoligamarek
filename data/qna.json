@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Co je to PHP?",
+    "answer": "PHP je skriptovaci jazyk, ktory sa pouziva na vyvoj webovych aplikacii."
+  },
+  {
+    "question": "Ako funguje server-side scripting?",
+    "answer": "Server-side scripting znamena, ze kod sa vykonava na serveri, nie na klientovi."
+  },
+  {
+    "question": "Ake su vyhody pouzivania PHP?",
+    "answer": "PHP je rychle, bezpecne a lahko sa uci."
+  },
+  {
+    "question": "Ako sa PHP pouziva na webovych strankach?",
+    "answer": "PHP sa pouziva na vytvaranie dynamickych webovych stranok."
+  }
+]

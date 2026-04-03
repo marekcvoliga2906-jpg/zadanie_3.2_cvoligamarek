@@ -1,0 +1,17 @@
+[
+  {
+    "image": "img/banner1.jpg",
+    "title": "Prvy nadpis",
+    "url": "portfolio.html"
+  },
+  {
+    "image": "img/banner2.jpg",
+    "title": "Druhy nadpis",
+    "url": "qna.php"
+  },
+  {
+    "image": "img/banner3.jpg",
+    "title": "Treti nadpis",
+    "url": "kontakt.html"
+  }
+]
