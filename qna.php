@@ -8,7 +8,7 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/classes/Database.php';
 require_once __DIR__ . '/classes/QnA.php';
 
-$qna = new QnA();
+$qna = new QnA(__DIR__ . '/data/qna.json');
 $qnaItems = $qna->getAllItems();
 ?>
 <!DOCTYPE html>
