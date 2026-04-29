@@ -4,12 +4,60 @@ declare(strict_types=1);
 
 use App\QnA;
 
+session_start();
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/classes/Database.php';
 require_once __DIR__ . '/classes/QnA.php';
 
 $qna = new QnA(__DIR__ . '/data/qna.json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = isset($_POST['action']) ? (string) $_POST['action'] : '';
+
+    if ($action === 'create') {
+        $question = isset($_POST['question']) ? trim((string) $_POST['question']) : '';
+        $answer = isset($_POST['answer']) ? trim((string) $_POST['answer']) : '';
+
+        if ($question === '' || $answer === '') {
+            $_SESSION['flash_message'] = 'Otazka aj odpoved su povinne.';
+        } else {
+            $created = $qna->createItem($question, $answer);
+            $_SESSION['flash_message'] = $created ? 'Otazka bola pridana.' : 'Pridanie sa nepodarilo.';
+        }
+    }
+
+    if ($action === 'update') {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+        $question = isset($_POST['question']) ? trim((string) $_POST['question']) : '';
+        $answer = isset($_POST['answer']) ? trim((string) $_POST['answer']) : '';
+
+        if ($id <= 0 || $question === '' || $answer === '') {
+            $_SESSION['flash_message'] = 'Neplatne udaje pre upravu.';
+        } else {
+            $updated = $qna->updateItem($id, $question, $answer);
+            $_SESSION['flash_message'] = $updated ? 'Otazka bola upravena.' : 'Uprava sa nepodarila.';
+        }
+    }
+
+    if ($action === 'delete') {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+
+        if ($id <= 0) {
+            $_SESSION['flash_message'] = 'Neplatne ID pre vymazanie.';
+        } else {
+            $deleted = $qna->deleteItem($id);
+            $_SESSION['flash_message'] = $deleted ? 'Otazka bola vymazana.' : 'Vymazanie sa nepodarilo.';
+        }
+    }
+
+    header('Location: qna.php');
+    exit;
+}
+
 $qnaItems = $qna->getAllItems();
+$flashMessage = isset($_SESSION['flash_message']) ? (string) $_SESSION['flash_message'] : '';
+unset($_SESSION['flash_message']);
 ?>
 <!DOCTYPE html>
 <html lang="sk">
@@ -57,6 +105,44 @@ $qnaItems = $qna->getAllItems();
     </section>
     <section class="container">
       <?php renderAccordionItems($qnaItems); ?>
+      <?php if ($flashMessage !== ''): ?>
+        <p><strong><?= escapeHtml($flashMessage); ?></strong></p>
+      <?php endif; ?>
+
+      <h3>Pridat otazku</h3>
+      <form method="post">
+        <input type="hidden" name="action" value="create">
+        <p>
+          <label for="create-question">Otazka</label><br>
+          <input id="create-question" type="text" name="question" required>
+        </p>
+        <p>
+          <label for="create-answer">Odpoved</label><br>
+          <textarea id="create-answer" name="answer" rows="3" required></textarea>
+        </p>
+        <button type="submit">Pridat</button>
+      </form>
+
+      <h3>Upravit / Zmazat</h3>
+      <?php foreach ($qnaItems as $item): ?>
+        <?php if (!isset($item['id'])): ?>
+          <?php continue; ?>
+        <?php endif; ?>
+        <form method="post">
+          <input type="hidden" name="id" value="<?= (int) $item['id']; ?>">
+          <p>
+            <label>Otazka</label><br>
+            <input type="text" name="question" value="<?= escapeHtml((string) ($item['question'] ?? '')); ?>" required>
+          </p>
+          <p>
+            <label>Odpoved</label><br>
+            <textarea name="answer" rows="3" required><?= escapeHtml((string) ($item['answer'] ?? '')); ?></textarea>
+          </p>
+          <button type="submit" name="action" value="update">Upravit</button>
+          <button type="submit" name="action" value="delete">Zmazat</button>
+        </form>
+        <hr>
+      <?php endforeach; ?>
     </section>
   </main>
   <footer class="container bg-dark text-white">
