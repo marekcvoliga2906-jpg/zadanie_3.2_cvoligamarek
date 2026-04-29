@@ -2,29 +2,32 @@
 
 declare(strict_types=1);
 
-final class QnA
+namespace App;
+
+use PDOException;
+
+final class QnA extends Database
 {
-    private string $filePath;
-
-    public function __construct(string $filePath)
-    {
-        $this->filePath = $filePath;
-    }
-
     public function getAllItems(): array
     {
-        if (!is_file($this->filePath)) {
+        $connection = $this->getConnection();
+
+        if ($connection === null) {
             return [];
         }
 
-        $json = file_get_contents($this->filePath);
+        try {
+            $statement = $connection->query('SELECT question, answer FROM qna');
 
-        if ($json === false) {
+            if ($statement === false) {
+                return [];
+            }
+
+            $items = $statement->fetchAll();
+
+            return is_array($items) ? $items : [];
+        } catch (PDOException $exception) {
             return [];
         }
-
-        $items = json_decode($json, true);
-
-        return is_array($items) ? $items : [];
     }
 }

@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+use App\QnA;
+
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/classes/Database.php';
 require_once __DIR__ . '/classes/QnA.php';
 
-$qna = new QnA(__DIR__ . '/data/qna.json');
+$qna = new QnA();
 $qnaItems = $qna->getAllItems();
 ?>
 <!DOCTYPE html>
